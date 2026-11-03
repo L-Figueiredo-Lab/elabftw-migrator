@@ -461,8 +461,6 @@ with st.sidebar:
         unsafe_allow_html=True
     )
 
-    st.markdown('<div class="sidebar-section">Server Configuration</div>', unsafe_allow_html=True)
-
 with st.sidebar:
     st.markdown('<div class="sidebar-section">Server Configuration</div>', unsafe_allow_html=True)
     elab_url = st.text_input("Endpoint URL (API v2)", value="https://labbook.gimm.pt/api/v2").rstrip("/")
