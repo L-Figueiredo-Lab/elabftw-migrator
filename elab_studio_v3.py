@@ -441,7 +441,6 @@ def push_doc_to_elabftw(doc: dict, elab_url: str, elab_key: str, target_type: st
 st.markdown("""
 <div class="app-masthead">
     <div>
-        <div class="app-eyebrow">Data & Protocol Ingestion Pipeline</div>
         <h1 class="app-title">eLabFTW Ingestion Studio</h1>
         <div class="app-subtitle">Deterministic document parsing, scientific notation normalization, and direct REST API v2 synchronization.</div>
     </div>
@@ -451,7 +450,6 @@ st.markdown("""
 
 # ================= SIDEBAR: CONFIGURATION & BATCH CONTROLS =================
 with st.sidebar:
-    # Add the GitHub repository link at the top of the sidebar
     st.markdown(
         """
         <a href="https://github.com/L-Figueiredo-Lab/elabftw-migrator" target="_blank" style="text-decoration: none;">
