@@ -29,7 +29,6 @@ st.markdown("""
 
 html, body, [class*="css"] {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    color: #0f172a;
 }
 
 code, pre, .mono {
@@ -85,10 +84,6 @@ code, pre, .mono {
 }
 
 /* Sidebar refinement */
-section[data-testid="stSidebar"] {
-    background-color: #f8fafc;
-    border-right: 1px solid #e2e8f0;
-}
 .sidebar-section {
     font-size: 0.72rem;
     font-weight: 600;
