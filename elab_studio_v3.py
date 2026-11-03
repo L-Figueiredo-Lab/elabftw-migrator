@@ -451,6 +451,21 @@ st.markdown("""
 
 # ================= SIDEBAR: CONFIGURATION & BATCH CONTROLS =================
 with st.sidebar:
+    # Add the GitHub repository link at the top of the sidebar
+    st.markdown(
+        """
+        <a href="https://github.com/L-Figueiredo-Lab/elabftw-migrator" target="_blank" style="text-decoration: none;">
+            <div style="background-color: #f1f5f9; padding: 10px; border-radius: 6px; text-align: center; color: #0f172a; font-size: 0.85rem; font-weight: 600; border: 1px solid #e2e8f0; margin-bottom: 15px; transition: all 0.2s ease;">
+                 View Documentation on GitHub
+            </div>
+        </a>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.markdown('<div class="sidebar-section">Server Configuration</div>', unsafe_allow_html=True)
+
+with st.sidebar:
     st.markdown('<div class="sidebar-section">Server Configuration</div>', unsafe_allow_html=True)
     elab_url = st.text_input("Endpoint URL (API v2)", value="https://labbook.gimm.pt/api/v2").rstrip("/")
     elab_key = st.text_input("Authorization Token (API key)", type="password")
