@@ -8,6 +8,7 @@ import requests
 import urllib3
 import streamlit as st
 from pathlib import Path
+import pandas as pd
 import mammoth
 from markdownify import markdownify as html_to_md
 import pymupdf4llm
@@ -292,6 +293,32 @@ TEXT_DOCUMENT_EXTS = {".docx", ".pdf", ".txt", ".md", ".csv", ".xlsx"}
 ATTACHMENT_ONLY_EXTS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".svg", ".zip", ".prism", ".pzfx", ".fcs", ".rds", ".h5ad", ".fastq", ".bam"}
 ALL_SUPPORTED_EXTS = TEXT_DOCUMENT_EXTS | ATTACHMENT_ONLY_EXTS
 
+def extract_spreadsheet_to_md(file_path: Path) -> str:
+    """Extracts Excel workbooks (all sheets) or CSV files and converts them to Markdown tables."""
+    ext = file_path.suffix.lower()
+    try:
+        # Load CSVs as a single-item dictionary, and Excel files as a multi-sheet dictionary
+        if ext == ".csv":
+            df = pd.read_csv(file_path)
+            sheets_dict = {file_path.stem: df}
+        else:
+            sheets_dict = pd.read_excel(file_path, sheet_name=None, engine='openpyxl')
+        
+        md_sections = []
+        for sheet_name, df in sheets_dict.items():
+            md_sections.append(f"### 📊 {sheet_name}")
+            
+            if df.empty and len(df.columns) == 0:
+                md_sections.append("*Empty sheet*")
+            else:
+                # Fill NaNs with empty strings so eLabFTW renders blank cells cleanly
+                df_clean = df.fillna("")
+                # .to_markdown() requires the 'tabulate' pip package
+                md_sections.append(df_clean.to_markdown(index=False))
+                
+        return "\n\n".join(md_sections)
+    except Exception as e:
+        return f"*Error extracting spreadsheet `{file_path.name}`: {e}*"
 
 def extract_single_file_markdown(file_path: Path) -> str:
     """Extracts Markdown from a single file, or returns a clean reference note for binary files."""
@@ -304,6 +331,8 @@ def extract_single_file_markdown(file_path: Path) -> str:
             raw_md = extract_docx_preserve_scripts(file_path)
         elif ext == ".pdf":
             raw_md = pymupdf4llm.to_markdown(str(file_path))
+        elif ext in [".xlsx", ".xls", ".csv"]:
+            raw_md = extract_spreadsheet_to_md(file_path)  # <-- Route spreadsheets here
         else:
             md_converter = MarkItDown()
             result = md_converter.convert(str(file_path))
