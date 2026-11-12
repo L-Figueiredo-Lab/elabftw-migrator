@@ -8,3 +8,4 @@ markitdown
 pandas
 openpyxl
 tabulate
+numpy<2.0.0
