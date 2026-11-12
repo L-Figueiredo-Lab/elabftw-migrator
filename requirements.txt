@@ -1,6 +1,10 @@
 streamlit
 requests
+urllib3
 mammoth
 markdownify
 pymupdf4llm
 markitdown
+pandas
+openpyxl
+tabulate
